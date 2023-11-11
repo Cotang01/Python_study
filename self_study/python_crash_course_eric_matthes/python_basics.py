@@ -21,12 +21,13 @@
 #     print(f'{i.title()}')
 # for i in favorite_languages.values():  # Проходится по значениям словаря
 #     print(f'{i.title()}')
-"""
-Но значения из словаря извлекаются без проверки на повторения.
-Чтобы получить значения без повторений, надо воспользоваться set()
-"""
-import random
-
+# """
+# Но значения из словаря извлекаются без проверки на повторения.
+# Чтобы получить значения без повторений, надо воспользоваться set()
+# """
+# import random
+#
+# 
 # favorite_languages = {
 #   'jen': 'python',
 #   'sarah': 'c#',
@@ -307,3 +308,81 @@ import random
 # Lambda применяется тогда, когда надо что-то быстро выполнить 1 раз и если
 # к ней больше не потребуется обращаться
 # print((lambda x, y, z: x + y + z)(1, 2, 3))
+
+# Неправильно
+# def add_to(elem, mylist=[]):
+#     mylist.append(elem)
+#     return mylist
+#
+#
+# print(add_to(10))
+# print(add_to(123, []))
+# print(add_to('a'))
+# print(add_to(10))
+# print(add_to(123, []))
+# print(add_to('a'))
+#
+#
+# # Правильно
+# def add_to(elem, mylist=None):
+#     if mylist is None:
+#         mylist = []
+#     mylist.append(elem)
+#     return mylist
+#
+#
+# class TestDecorator:
+#     def __init__(self, func):
+#         self.func = func
+#
+#     def __call__(self, *args, **kwargs):
+#         print("start decorator")
+#         result = self.func(*args, **kwargs)
+#         print("end decorator")
+#         return result
+#
+#
+# @TestDecorator
+# def test_func(n1, n2):
+#     return n1 + n2
+#
+#
+# print(test_func(1, 3))
+
+#
+# def convert(n: int) -> str:
+#     return ''.join(map(str, range(n + 1)))
+#
+#
+# print(convert(100))
+#
+#
+# def merge(list1: list, list2: list) -> dict:
+#     return dict(sorted(zip(list1, list2)))
+#
+#
+# print(merge([3, 2, 8, 4], [(4, 5), 2, 3, 4, 5]))
+#
+
+# O(n^2)
+def count_zeros1(matrix: list) -> int:
+    return [item for bucket in matrix for item in bucket if item == 0].count(0)
+
+
+# Тоже O(n^2), но быстрее
+def count_zeros2(matrix: list) -> int:
+    res = 0
+    for row in matrix:
+        for elem in row:
+            if elem == 0:
+                res += 1
+            else:
+                break
+    return res
+
+
+matrix1 = [[0, 1, 1, 1],
+           [1, 1, 1, 1],
+           [1, 1, 1, 1],
+           [1, 1, 1, 1]]
+print(count_zeros2(matrix1))
