@@ -31,7 +31,7 @@ class Solution:
                 buckets[cur_radix].append(num)
             numbers = [num for bucket in buckets for num in bucket]
             buckets = [[] for _ in range(10)]
-        return numbers
+        return list(reversed(numbers))
 
     def sort_list_declarative(self, numbers: list[int]) -> list[int]:
         """
@@ -40,10 +40,10 @@ class Solution:
         :param numbers: список целых чисел.
         :return: отсортированный список целых чисел.
         """
-        return sorted(numbers)
+        return list(reversed(sorted(numbers)))
 
 
 assert Solution().sort_list_imperative(
-    [5, 2, 3213, 525278, 123, 24]) == [2, 5, 24, 123, 3213, 525278]
+    [5, 2, 3213, 525278, 123, 24]) == [525278, 3213, 123, 24, 5, 2]
 assert Solution().sort_list_declarative(
-    [5, 2, 3213, 525278, 123, 24]) == [2, 5, 24, 123, 3213, 525278]
+    [5, 2, 3213, 525278, 123, 24]) == [525278, 3213, 123, 24, 5, 2]
