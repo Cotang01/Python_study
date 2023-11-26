@@ -40,7 +40,8 @@ class Solution:
         :param numbers: список целых чисел.
         :return: отсортированный список целых чисел.
         """
-        return list(reversed(sorted(numbers)))
+        numbers.sort(reverse=True)
+        return numbers
 
 
 assert Solution().sort_list_imperative(
