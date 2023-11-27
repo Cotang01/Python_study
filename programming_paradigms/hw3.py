@@ -117,7 +117,7 @@ class GameMaster:
         self.board.clear()
         self.available_places = self.board.fields.copy()
 
-    def receive_human_input(self):
+    def start(self):
         while True:
             choice = input('Список опций:\n'
                            '1. Начать игру\n'
@@ -132,7 +132,7 @@ class GameMaster:
                     break
                 case _:
                     print('Такой опции нет!')
-                    self.receive_human_input()
+                    self.start()
 
 
 class Board:
@@ -155,4 +155,4 @@ class Player:
 
 
 if __name__ == '__main__':
-    GameMaster().receive_human_input()
+    GameMaster().start()
