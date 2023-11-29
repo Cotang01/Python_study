@@ -63,8 +63,8 @@ class GameMaster:
                 self._player_turn(player.next_p)
             else:
                 print(f'{player.name} победил!')
-        except TypeError:
-            print(f'Нет такого значения, ваш ход пропущен.')
+        except ValueError:
+            print(f'Нет такого значения, попробуйте ещё раз.')
             self._player_turn(player)
 
     def _check_win(self, player):
@@ -92,7 +92,7 @@ class GameMaster:
                 f'-> '))
             if 0 < new_color < 5:
                 player.change_color(self.player_colors.get(new_color))
-        except TypeError:
+        except ValueError:
             print('Такого у нас нет!')
             self._choose_color(player)
 
