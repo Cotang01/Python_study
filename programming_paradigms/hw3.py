@@ -14,15 +14,17 @@ from colorama import Fore
 class GameMaster:
     def __init__(self):
         self.board = Board()
-        self.available_places = self.board.fields.copy()
-        self.players = (Player('x'), Player('0'))
-        self.player_colors = {'1': Fore.RED,
-                              '2': Fore.BLUE,
-                              '3': Fore.GREEN,
-                              '4': Fore.YELLOW}
-        self.WIN_PATTERNS = (['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'],
-                             ['1', '4', '7'], ['2', '5', '8'], ['3', '6', '9'],
-                             ['1', '5', '9'], ['3', '5', '7'])
+        self.available_places = set(self.board.fields.copy())
+        self.player1 = Player('x')
+        self.player2 = Player('0')
+        self.player1.next_p, self.player2.next_p = self.player2, self.player1
+        self.player_colors = {1: Fore.RED,
+                              2: Fore.BLUE,
+                              3: Fore.GREEN,
+                              4: Fore.YELLOW}
+        self.WIN_PATTERNS = ([1, 2, 3], [4, 5, 6], [7, 8, 9],
+                             [1, 4, 7], [2, 5, 8], [3, 6, 9],
+                             [1, 5, 9], [3, 5, 7])
 
     def _show_board(self):
         print(f'\n'
@@ -41,75 +43,56 @@ class GameMaster:
               f'═════════════'
               f'\n')
 
-    def _player1_turn(self, player):
-        if self.available_places:
-            self._show_board()
-            turn = input(f'{player.name}, выберите одну из доступных клеток:\n'
-                         f'{[i for i in self.available_places if 0 < i < 10]}\n'
-                         f'-> ')
-            if turn.isdigit() and 0 < int(turn) < 10:
-                if int(turn) in self.available_places:
-                    player.moves.append(turn)
-                    self.available_places.remove(int(turn))
-                    self.board.fields[int(turn) - 1] = player.side
-                else:
-                    print('Это поле уже занято! Ваш ход пропущен.')
-                if not self._check_win(player):
-                    self._player2_turn(self.players[1])
-                else:
-                    print(f'{player.name} победил!')
-            else:
-                print('Таких клеток на поле нет!')
-                self._player1_turn(player)
-        else:
+    def _player_turn(self, player):
+        if not self.available_places:
             print('Ничья!')
-
-    def _player2_turn(self, player):
-        if self.available_places:
+            return
+        try:
             self._show_board()
-            turn = input(f'{player.name}, выберите одну из доступных клеток:\n'
-                         f'{[i for i in self.available_places if 0 < i < 10]}\n'
-                         f'-> ')
-            if turn.isdigit() and 0 < int(turn) < 10:
-                if int(turn) in self.available_places:
-                    player.moves.append(turn)
-                    self.available_places.remove(int(turn))
-                    self.board.fields[int(turn) - 1] = player.side
-                else:
-                    print('Это поле уже занято! Ваш ход пропущен.')
-                if not self._check_win(player):
-                    self._player1_turn(self.players[0])
-                else:
-                    print(f'{player.name} победил!')
+            turn = int(input(
+                f'{player.name}, выберите одну из доступных клеток:\n'
+                f'{[i for i in self.available_places if 0 < i < 10]}\n'
+                f'-> '))
+            if turn in self.available_places:
+                player.moves.append(turn)
+                self.available_places.remove(turn)
+                self.board.fields[turn - 1] = player.side
             else:
-                print('Таких клеток на поле нет!')
-                self._player2_turn(player)
-        else:
-            print('Ничья!')
+                print('Это поле уже занято! Ваш ход пропущен.')
+            if not self._check_win(player):
+                self._player_turn(player.next_p)
+            else:
+                print(f'{player.name} победил!')
+        except TypeError:
+            print(f'Нет такого значения, ваш ход пропущен.')
+            self._player_turn(player)
 
     def _check_win(self, player):
-        return sorted(player.moves) in self.WIN_PATTERNS
+        player.moves.sort()
+        return player.moves in self.WIN_PATTERNS
 
     def play(self):
         self._configure_players()
-        self._player1_turn(self.players[0])
+        self._player_turn(self.player1)
 
     def _configure_players(self):
-        self.players[0].name = input('Введите имя Первого игрока -> ')
-        self._choose_color(self.players[0])
-        self.players[1].name = input('Введите имя Второго игрока -> ')
-        self._choose_color(self.players[1])
+        self.player1.name = input('Введите имя Первого игрока -> ')
+        self._choose_color(self.player1)
+        self.player2.name = input('Введите имя Второго игрока -> ')
+        self._choose_color(self.player2)
 
     def _choose_color(self, player):
-        new_color = input(f'Выберите цвет имени для {player.name}:\n'
-                          f'1. Красный\n'
-                          f'2. Синий\n'
-                          f'3. Зелёный\n'
-                          f'4. Жёлтый\n'
-                          f'-> ')
-        if new_color.isdigit() and 0 < int(new_color) < 5:
-            player.change_color(self.player_colors.get(new_color))
-        else:
+        try:
+            new_color = int(input(
+                f'Выберите цвет имени для {player.name}:\n'
+                f'1. Красный\n'
+                f'2. Синий\n'
+                f'3. Зелёный\n'
+                f'4. Жёлтый\n'
+                f'-> '))
+            if 0 < new_color < 5:
+                player.change_color(self.player_colors.get(new_color))
+        except TypeError:
             print('Такого у нас нет!')
             self._choose_color(player)
 
@@ -144,15 +127,18 @@ class Board:
 
 
 class Player:
-    def __init__(self, side: str,
+    def __init__(self,
+                 side: str,
+                 next_p=None,
                  name: str = 'Игрок'):
         self.side: str = side
         self.name: str = name
         self.moves = []
+        self.next_p = next_p
 
     def change_color(self, color: str):
         self.name = color + self.name
 
 
-if __name__ == '__main__':
-    GameMaster().start()
+# if __name__ == '__main__':
+#     GameMaster().start()
