@@ -140,5 +140,5 @@ class Player:
         self.name = color + self.name
 
 
-# if __name__ == '__main__':
-#     GameMaster().start()
+if __name__ == '__main__':
+    GameMaster().start()
