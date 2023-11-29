@@ -8,20 +8,25 @@
 усмотрение. Главное, чтобы в игру можно было поиграть через
 терминал с вашего компьютера.
 """
+
 from colorama import Fore
+import random
 
 
 class GameMaster:
     def __init__(self):
-        self.board = Board()
-        self.available_places = set(self.board.fields.copy())
-        self.player1 = Player('x')
-        self.player2 = Player('0')
-        self.player1.next_p, self.player2.next_p = self.player2, self.player1
+        self.board: Board = Board()
+        self.available_places: set = set(self.board.fields.copy())
+        self.players: list[Player] = [Player('x'), Player('0')]
+
+        self.players[0].next_p, self.players[1].next_p = \
+            self.players[1], self.players[0]
+
         self.player_colors = {1: Fore.RED,
                               2: Fore.BLUE,
                               3: Fore.GREEN,
                               4: Fore.YELLOW}
+
         self.WIN_PATTERNS = ([1, 2, 3], [4, 5, 6], [7, 8, 9],
                              [1, 4, 7], [2, 5, 8], [3, 6, 9],
                              [1, 5, 9], [3, 5, 7])
@@ -49,10 +54,13 @@ class GameMaster:
             return
         try:
             self._show_board()
-            turn = int(input(
-                f'{player.name}, выберите одну из доступных клеток:\n'
-                f'{[i for i in self.available_places if 0 < i < 10]}\n'
-                f'-> '))
+            if not player.is_bot:
+                turn = int(input(
+                    f'{player.name}, выберите одну из доступных клеток:\n'
+                    f'{[i for i in self.available_places if 0 < i < 10]}\n'
+                    f'-> '))
+            else:
+                turn = random.randint(1, 9)
             if turn in self.available_places:
                 player.moves.append(turn)
                 self.available_places.remove(turn)
@@ -72,14 +80,14 @@ class GameMaster:
         return player.moves in self.WIN_PATTERNS
 
     def play(self):
-        self._configure_players()
-        self._player_turn(self.player1)
+        for player in self.players:
+            if not player.is_bot:
+                self._configure_player(player)
+        self._player_turn(self.players[0])
 
-    def _configure_players(self):
-        self.player1.name = input('Введите имя Первого игрока -> ')
-        self._choose_color(self.player1)
-        self.player2.name = input('Введите имя Второго игрока -> ')
-        self._choose_color(self.player2)
+    def _configure_player(self, player):
+        player.name = input('Введите имя игрока -> ')
+        self._choose_color(player)
 
     def _choose_color(self, player):
         try:
@@ -90,8 +98,9 @@ class GameMaster:
                 f'3. Зелёный\n'
                 f'4. Жёлтый\n'
                 f'-> '))
-            if 0 < new_color < 5:
-                player.change_color(self.player_colors.get(new_color))
+            if not 0 < new_color < 5:
+                raise ValueError
+            player.change_color(self.player_colors.get(new_color))
         except ValueError:
             print('Такого у нас нет!')
             self._choose_color(player)
@@ -103,14 +112,19 @@ class GameMaster:
     def start(self):
         while True:
             choice = input('Список опций:\n'
-                           '1. Начать игру\n'
-                           '2. Выйти\n'
+                           '1. Начать игру (PVP)\n'
+                           '2. Начать игру (PVE)\n'
+                           '3. Выйти\n'
                            'Выберите действие -> ')
             match choice:
                 case '1':
                     self._clear_board()
                     self.play()
                 case '2':
+                    self._clear_board()
+                    self.players[1].is_bot = True
+                    self.play()
+                case '3':
                     print('Пока!')
                     break
                 case _:
@@ -130,11 +144,13 @@ class Player:
     def __init__(self,
                  side: str,
                  next_p=None,
-                 name: str = 'Игрок'):
+                 name: str = 'Игрок',
+                 is_bot: bool = False):
         self.side: str = side
         self.name: str = name
         self.moves = []
         self.next_p = next_p
+        self.is_bot = is_bot
 
     def change_color(self, color: str):
         self.name = color + self.name
