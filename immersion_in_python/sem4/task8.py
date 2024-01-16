@@ -7,6 +7,6 @@
 
 
 def replace_end_s_with_none(s: str) -> str:
-    if s.endswith('s'):
+    if s.endswith('s') and len(s) > 1:
         s = None
     return s
