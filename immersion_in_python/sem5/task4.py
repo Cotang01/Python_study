@@ -5,4 +5,4 @@
 ✔ Решение в одну строку.
 """
 
-nums_gen = [*filter(lambda x: x % 8 != 0, [num for num in range(0, 100, 2)])]
+nums_gen = [*filter(lambda x: int(str(x)[0]) + int(str(x)[1]) != 8 if len(str(x)) > 1 else x, [num for num in range(0, 100, 2)])]
