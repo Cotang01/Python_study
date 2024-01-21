@@ -13,12 +13,11 @@
 def print_fizz_buzz_nums() -> int | str:
     fizz_buzz_dict = {3: 'Fizz', 5: 'Buzz'}
     for num in range(1, 100):
-        res = num
         buffer = ''
         for k, v in fizz_buzz_dict.items():
             if num % k == 0:
                 buffer += v
-        yield res if not buffer else buffer
+        yield num if not buffer else buffer
 
 
 for i in print_fizz_buzz_nums():
