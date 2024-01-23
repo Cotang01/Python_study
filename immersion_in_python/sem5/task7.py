@@ -16,6 +16,8 @@ def is_prime(num: int) -> bool:
 
 
 def primes_generator(n: int) -> int:
+    if n == 2:
+        yield 2
     for num in range(3, n, 2):
         if is_prime(num):
             yield num
