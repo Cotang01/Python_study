@@ -19,7 +19,8 @@ __all__ = ['is_real_date', 'is_leap_year']
 
 def is_real_date(date_: str) -> bool:
     try:
-        date.fromisoformat('-'.join(date_.split('.')[::-1]))
+        d, m, y = date_.split('.')
+        date.fromisoformat(f'{y}-{m.zfill(2)}-{d.zfill(2)}')
         return True
     except ValueError:
         return False
