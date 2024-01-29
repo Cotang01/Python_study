@@ -17,7 +17,7 @@ def sort_files(dir_to_sort: str = '.') -> None:
     for k in masks.keys():
         gen_dir(k)
     for f in cur_files:
+        cur_mask = f.split('.')[-1]
         for k, v in masks.items():
-            cur_mask = f.split('.')[-1]
             if cur_mask in v:
-                os.replace(os.path.abspath(f), os.path.abspath(k) + f)
+                os.replace(os.path.abspath(f), os.path.abspath(k) + '\\' + f)
