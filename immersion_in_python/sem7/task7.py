@@ -13,11 +13,14 @@ def sort_files(dir_to_sort: str = '.') -> None:
     masks = {'Music': {'mp4'},
              'Video': {'png', 'jpg', 'jpeg'},
              'Text': {'txt', 'doc', 'docx'}}
-    cur_files = [os.path.abspath(f) for f in os.listdir(dir_to_sort)]
+    file_names = [f for f in os.listdir(dir_to_sort)]
     for k in masks.keys():
         gen_dir(k)
-    for f in cur_files:
+    for f in file_names:
         cur_mask = f.split('.')[-1]
         for k, v in masks.items():
             if cur_mask in v:
                 os.replace(os.path.abspath(f), os.path.abspath(k) + '\\' + f)
+
+
+sort_files()

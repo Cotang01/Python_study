@@ -20,7 +20,7 @@ def gen_files_in_dir(dir_path: str = '.',
 def gen_dir(dir_path: str) -> str:
     counter = 1
     while os.path.exists(dir_path):
-        dir_path = f'{os.path.abspath(dir_path)} + ({str(counter)})'
+        dir_path = f'{os.path.abspath(dir_path)}({str(counter)})'
         counter += 1
     os.mkdir(dir_path)
     return dir_path
