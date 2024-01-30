@@ -23,7 +23,8 @@ def gen_files(mask: str,
     for _ in range(files_count):
         name = gen_file_name(mask, name_min_len, name_max_len)
         with open(name + '.' + mask, mode='a', encoding='UTF-8') as file:
-            file.write(str(randint(min_bytes, max_bytes)))
+            file.write(str(bytes(randint(0, 255)
+                                 for _ in range(randint(min_bytes, max_bytes)))))
 
 
 def gen_file_name(mask: str, min_len: int, max_len: int) -> str:
