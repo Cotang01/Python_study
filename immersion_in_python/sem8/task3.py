@@ -17,5 +17,3 @@ def convert_json_to_csv(file_path: str, csv_file: str) -> None:
             for pid, name in persons.items():
                 csv_writer.writerow([lvl, pid, name])
 
-
-convert_json_to_csv('task2.json', 'task3.csv')
