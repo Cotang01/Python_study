@@ -17,7 +17,7 @@ class Rectangle:
             self.side = sides[0]
         elif n == 2:
             self.width = sides[0]
-            self.length = sides[0]
+            self.length = sides[1]
         else:
             raise ValueError(
                 f"{self.__class__} cannot have {n} sides")
