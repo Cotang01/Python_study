@@ -9,55 +9,31 @@ class Rectangle:
     """Class for creating Rectangle objects"""
 
     def __init__(self, *sides):
-        n = len(sides)
-        if n == 1:
-            self.side = sides[0]
-            self.perimeter = self.side * 4
-            self.area = self.side ** 2
-        elif n == 2:
-            self.width = sides[0]
-            self.length = sides[1]
-            self.perimeter = (self.width + self.length) * 2
-            self.area = self.width * self.length
-        else:
-            raise ValueError(
-                f"{self.__class__} cannot have {n} sides")
+        match len(sides):
+            case 1 | 2:
+                self.width = sides[0]
+                self.length = sides[-1]
+                self.perimeter = (self.width + self.length) * 2
+                self.area = self.width * self.length
+            case _:
+                raise ValueError(
+                    f'{self.__class__.__name__} '
+                    f'cannot have that amount of sides'
+                )
 
-    def get_per(self):
-        return self.perimeter
+    def _is_valid_size(self, value):
+        if value < 0:
+            raise ValueError('Side cannot have negative length')
+        return True
 
-    def get_area(self):
-        return self.area
+    def __add__(self, other):
+        return Rectangle(self.width + other.width, self.length + other.length)
 
-    def increase(self, *sides):
-        n = len(sides)
-        if n == 1:
-            new_side = self.side + sides[0]
-            return Rectangle(new_side)
-        elif n == 2:
-            new_width = self.width + sides[0]
-            new_length = self.length + sides[1]
-            return Rectangle(new_width, new_length)
-        else:
-            raise ValueError(
-                f"{self.__class__} cannot have {n} sides")
-
-    def decrease(self, *sides):
-        n = len(sides)
-        if n == 1:
-            new_side = self.side - sides[0]
-            if new_side < 0:
-                raise ValueError('Sides cannot have negative len')
-            return Rectangle(new_side)
-        elif n == 2:
-            new_width = self.width - sides[0]
-            new_length = self.length - sides[1]
-            if new_width < 0 or new_length < 0:
-                raise ValueError('Sides cannot have negative len')
-            return Rectangle(new_width, new_length)
-        else:
-            raise ValueError(
-                f"{self.__class__} cannot have {n} sides")
+    def __sub__(self, other):
+        if not self._is_valid_size(new_w := self.width - other.width) \
+                or not self._is_valid_size(new_l := self.length - other.length):
+            raise ValueError(f'New {self.__class__} cannot have negative size')
+        return Rectangle(new_w, new_l)
 
     def __eq__(self, other):
         return self.area == other.area
