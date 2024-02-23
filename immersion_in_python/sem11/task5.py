@@ -30,10 +30,13 @@ class Rectangle:
         return True
 
     def __add__(self, other):
-        return Rectangle(self.width + other.width, self.length + other.length)
+        new_per = self.perimeter + other.perimeter
+        return Rectangle(new_per / 2 - self.width, new_per / 2 - other.length)
 
     def __sub__(self, other):
-        if not self._is_valid_size(new_w := self.width - other.width) \
-                or not self._is_valid_size(new_l := self.length - other.length):
+        new_per = self.perimeter + other.perimeter
+        new_w = new_per / 2 - self.width
+        new_l = new_per / 2 - other.length
+        if not self._is_valid_size(new_w) or not self._is_valid_size(new_l):
             raise ValueError(f'New {self.__class__} cannot have negative size')
         return Rectangle(new_w, new_l)
