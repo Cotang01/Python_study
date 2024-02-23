@@ -11,27 +11,17 @@ class Rectangle:
     """Class for creating Rectangle objects"""
 
     def __init__(self, *sides):
-        n = len(sides)
-        if n == 1:
-            self.side = sides[0]
-            self.perimeter = self.side * 4
-            self.area = self.side ** 2
-        elif n == 2:
-            self.width = sides[0]
-            self.length = sides[1]
-            self.perimeter = (self.width + self.length) * 2
-            self.area = self.width * self.length
-        else:
-            raise ValueError(
-                f"{self.__class__.__name__} cannot have {n} sides")
-
-    def _check_square_attr(self):
-        if not hasattr(self, 'side'):
-            raise AttributeError('Maybe you wanted to call width or length?')
-
-    def _check_rect_attr(self):
-        if not hasattr(self, 'width') or not hasattr(self, 'length'):
-            raise AttributeError("Maybe you wanted to call square's side?")
+        match len(sides):
+            case 1 | 2:
+                self._width = sides[0]
+                self._length = sides[-1]
+                self._perimeter = (self.width + self.length) * 2
+                self._area = self.width * self.length
+            case _:
+                raise ValueError(
+                    f'{self.__class__.__name__} '
+                    f'cannot have that amount of sides'
+                )
 
     def _is_valid_size(self, value):
         if value < 0:
@@ -39,71 +29,39 @@ class Rectangle:
         return True
 
     @property
-    def side(self):
-        self._check_square_attr()
-        return self.side
-
-    @side.setter
-    def side(self, new_side):
-        self._check_square_attr()
-        if self._is_valid_size(new_side):
-            self.side = new_side
-
-    @property
     def width(self):
-        return self.width
+        return self._width
 
     @width.setter
     def width(self, new_width):
-        self._check_rect_attr()
         if self._is_valid_size(new_width):
-            self.width = new_width
+            self._width = new_width
 
     @property
     def length(self):
-        return self.length
+        return self._length
 
     @length.setter
     def length(self, new_length):
-        self._check_rect_attr()
         if self._is_valid_size(new_length):
-            self.width = new_length
+            self._width = new_length
 
-    def get_per(self):
-        return self.perimeter
+    @property
+    def perimeter(self):
+        return self._perimeter
 
-    def get_area(self):
-        return self.area
+    @property
+    def area(self):
+        return self._area
 
-    def increase(self, *sides):
-        n = len(sides)
-        if n == 1:
-            new_side = self.side + sides[0]
-            return Rectangle(new_side)
-        elif n == 2:
-            new_width = self.width + sides[0]
-            new_length = self.length + sides[1]
-            return Rectangle(new_width, new_length)
-        else:
-            raise ValueError(
-                f"{self.__class__} cannot have {n} sides")
+    def __add__(self, other):
+        return Rectangle(self.width + other.width, self.length + other.length)
 
-    def decrease(self, *sides):
-        n = len(sides)
-        if n == 1:
-            new_side = self.side - sides[0]
-            if new_side < 0:
-                raise ValueError('Sides cannot have negative len')
-            return Rectangle(new_side)
-        elif n == 2:
-            new_width = self.width - sides[0]
-            new_length = self.length - sides[1]
-            if new_width < 0 or new_length < 0:
-                raise ValueError('Sides cannot have negative len')
-            return Rectangle(new_width, new_length)
-        else:
-            raise ValueError(
-                f"{self.__class__} cannot have {n} sides")
+    def __sub__(self, other):
+        if not self._is_valid_size(new_w := self.width - other.width) \
+                or not self._is_valid_size(new_l := self.length - other.length):
+            raise ValueError(f'New {self.__class__} cannot have negative size')
+        return Rectangle(new_w, new_l)
 
     def __eq__(self, other):
         return self.area == other.area
