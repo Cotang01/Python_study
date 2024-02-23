@@ -11,23 +11,20 @@
 
 class Rectangle:
     """Class for creating Rectangle objects"""
+
     def __init__(self, *sides):
-        n = len(sides)
-        if n == 1:
-            self.side = sides[0]
-        elif n == 2:
-            self.width = sides[0]
-            self.length = sides[1]
-        else:
-            raise ValueError(
-                f"{self.__class__} cannot have {n} sides")
+        match len(sides):
+            case 1 | 2:
+                self.width = sides[0]
+                self.length = sides[-1]
+            case _:
+                raise ValueError(
+                    f'{self.__class__.__name__} '
+                    f'cannot have that amount of sides'
+                )
 
     def get_per(self):
-        if hasattr(self, 'side'):
-            return self.side*4
         return (self.width + self.length) * 2
 
     def get_area(self):
-        if hasattr(self, 'side'):
-            return self.side**2
         return self.width * self.length
