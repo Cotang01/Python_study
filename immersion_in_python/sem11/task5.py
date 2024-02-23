@@ -34,7 +34,7 @@ class Rectangle:
         return Rectangle(new_per / 2 - self.width, new_per / 2 - other.length)
 
     def __sub__(self, other):
-        new_per = self.perimeter + other.perimeter
+        new_per = self.perimeter - other.perimeter
         new_w = new_per / 2 - self.width
         new_l = new_per / 2 - other.length
         if not self._is_valid_size(new_w) or not self._is_valid_size(new_l):
