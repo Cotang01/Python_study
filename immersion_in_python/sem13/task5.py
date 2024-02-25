@@ -23,7 +23,7 @@ class LoginSystem:
 
     def __init__(self, file_path):
         self.data = self.gen_users_from_json(file_path)
-        self.logged_level = 0
+        self.logged_level = None
 
     def login(self, name, pid) -> int:
         for user in self.data:
@@ -33,7 +33,7 @@ class LoginSystem:
         raise PermissionException('invalid user data')
 
     def register(self, name, pid, level) -> None:
-        if level < self.logged_level:
+        if not self.logged_level or level < self.logged_level:
             raise LevelError('Greater level not allowed')
         self.data.append(User(name, pid, level))
 
