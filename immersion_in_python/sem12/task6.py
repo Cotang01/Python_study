@@ -7,23 +7,29 @@
 
 class Side:
     """Rectangle's side descriptor"""
-    def __init__(self, value=0):
-        self.value = value
+    def __set_name__(self, owner, name):
+        self.name = '_' + name
 
     def __get__(self, instance, owner):
-        return self.value
+        return getattr(instance, self.name)
 
     def __set__(self, instance, value):
-        if value > 0:
-            self.value = value
+        if value < 0:
+            raise ValueError(f'Size of {instance} cannot be negative: {value}')
+        setattr(instance, self.name, value)
 
 
 class Rectangle:
     """Class for creating Rectangle objects"""
 
-    width = Side()
-    length = Side()
+    _width = Side()
+    _length = Side()
     _attrs = {'width', 'length'}
+
+    def __new__(cls, *sides):
+        if any(filter(lambda x: x < 0, sides)):
+            raise ValueError(f'Size of {cls} side cannot be negative')
+        return super().__new__(cls)
 
     def __init__(self, *sides):
         match len(sides):
