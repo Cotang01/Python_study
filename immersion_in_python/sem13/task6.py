@@ -31,19 +31,35 @@ class PermissionException(Exception):
 class LoginSystem:
 
     def __init__(self, file_path):
-        self.data = gen_users_from_json(file_path)
+        self.data = self.gen_users_from_json(file_path)
+        self.logged_level = None
 
     def login(self, name, pid) -> int:
         for user in self.data:
             if user.name == name and user.pid == pid:
+                self.logged_level = user.level
                 return user.level
         raise PermissionException(name, pid)
 
     def register(self, name, pid, level) -> None:
-        cur_level = self.login(name, pid)
-        if cur_level < level:
-            raise LevelError(cur_level, level)
+        if not self.logged_level or level < self.logged_level:
+            raise LevelError(self.logged_level, level)
         self.data.append(User(name, pid, level))
+
+    @staticmethod
+    def _get_json_data(file_path: str) -> dict:
+        try:
+            with open(file_path, mode='r', encoding='UTF-8') as file:
+                return json.load(file)
+        except (json.decoder.JSONDecodeError, FileNotFoundError):
+            print(
+                "File is empty, file not found or data type doesn't match JSON")
+            return {}
+
+    def gen_users_from_json(self, file_path: str) -> List:
+        return [User(n, int(p), int(l))
+                for l, inner in self._get_json_data(file_path).items()
+                for (p, n) in inner.items()]
 
 
 class NameDesc:
@@ -99,18 +115,3 @@ class User:
 
     def __eq__(self, other):
         return self.name == other.name and self.pid == other.pid
-
-
-def get_json_data(file_path: str) -> dict:
-    try:
-        with open(file_path, mode='r', encoding='UTF-8') as file:
-            return json.load(file)
-    except (json.decoder.JSONDecodeError, FileNotFoundError):
-        print("File is empty, file not found or data type doesn't match JSON")
-        return {}
-
-
-def gen_users_from_json(file_path: str) -> List[User]:
-    return [User(n, int(p), int(l))
-            for l, inner in get_json_data(file_path).items()
-            for (p, n) in inner.items()]
