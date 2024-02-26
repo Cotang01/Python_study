@@ -54,15 +54,14 @@ def get_input(input_choices, current_data: dict) -> \
 
 
 def get_json_data(file_path: str) -> dict:
-    with open(file_path, mode='r', encoding='UTF-8') as file:
-        try:
+    try:
+        with open(file_path, mode='r', encoding='UTF-8') as file:
             return json.load(file)
-        except json.decoder.JSONDecodeError:
-            print("File is empty or data type doesn't match JSON")
-            return {}
+    except (json.decoder.JSONDecodeError, FileNotFoundError):
+        print("File is empty or data type doesn't match JSON")
+        return {}
 
 
 def write_json_data(file_path: str, data: dict) -> None:
     with open(file_path, mode='w', encoding='UTF-8') as file:
         file.write(json.dumps(data))
-
