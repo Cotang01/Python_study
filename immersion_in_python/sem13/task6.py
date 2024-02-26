@@ -42,7 +42,7 @@ class LoginSystem:
         raise PermissionException(name, pid)
 
     def register(self, name, pid, level) -> None:
-        if not self.logged_level or level < self.logged_level:
+        if not self.logged_level or level > self.logged_level:
             raise LevelError(self.logged_level, level)
         self.data.append(User(name, pid, level))
 
