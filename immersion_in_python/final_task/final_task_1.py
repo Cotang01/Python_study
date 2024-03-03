@@ -137,10 +137,10 @@ class TestStudent:
         with open(file_name, mode='w', encoding='UTF-8') as f:
             writer = csv.writer(f)
             writer.writerow(subjects)
-        return Student('Петров', file_name, e_logger)
+        return Student('Петров Иван', file_name, e_logger)
 
     def test_full_name(self, student):
-        assert student.full_name == 'Петров'
+        assert student.full_name == 'Петров Иван'
 
     def test_add_grade_success(self, student):
         student.add_grade('Математика', 4)
