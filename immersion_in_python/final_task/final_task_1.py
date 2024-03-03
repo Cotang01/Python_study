@@ -46,8 +46,8 @@ class Student:
     subjects = CsvData()
 
     def __init__(self, name, csv_file, e_logger):
-        self._full_name = name
-        self._subjects = csv_file
+        self.full_name = name
+        self.subjects = csv_file
         self.grades = self.subjects.copy()
 
         self.add_grade = self._ve_log_decor(self.add_grade, e_logger)
