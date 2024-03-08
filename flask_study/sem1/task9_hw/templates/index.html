@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My first HTML page</title>
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/style.css') }}"/>
+</head>
+<body>
+<header>
+    <h1 class="hello">Hello, World!</h1>
+</header>
+<main>
+    <button class="rng-color-button"
+            onclick="changeColor()">Change my color
+    </button>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <ul>
+        <li>
+            <a href="about">About us</a>
+            <a href="contact">Contact</a>
+            <a href="students">Students</a>
+            <a href="news">News</a>
+            <a href="products">Products</a>
+        </li>
+    </ul>
+    <h2 class="calc">Calculate</h2>
+    <input type="number" id="number1">
+    <input type="number" id="number2">
+    <select id="operation">
+        <option value="add">+</option>
+    </select>
+    <button class="calc_button" onclick="calculate()">
+        Get result
+    </button>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <input type="text" id="calc_result" readonly>
+    <h3 class="get_len">Input text to get it's length</h3>
+    <input type="text" id="string1">
+    <button class="get_len_button" onclick="getLen()">Get result</button>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <input type="number" id="str_len_result" readonly>
+</main>
+</body>
+<footer>
+    <p>&copy; <span id="curYear"></span> All rights reserved.</p>
+    <script>
+        document.getElementById('curYear').textContent = new Date()
+            .getFullYear();
+    </script>
+</footer>
+</html>

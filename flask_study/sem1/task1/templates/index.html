@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>task1</title>
+        <link rel="stylesheet" type="text/css"
+              href="{{ url_for('static', filename='css/style.css') }}" />
+    </head>
+    <body>
+        <h1 class="hello">Hello, World!</h1>
+        <div>
+          <button class="rng-color-button"
+                  onclick="changeColor()">Change my color</button>
+          <script src="{{ url_for('static', filename='js/index.js') }}">
+          </script>
+        </div>
+    </body>
+</html>

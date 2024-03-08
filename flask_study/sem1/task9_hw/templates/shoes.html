@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shoes</title>
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/style.css') }}"/>
+</head>
+<body>
+<header>
+    <h1>Brown shoes</h1>
+    <ul>
+        <li>
+            <a href="/">Home</a>
+            <a href="about">About us</a>
+            <a href="contact">Contact</a>
+        </li>
+    </ul>
+</header>
+<main>
+    <div class="product-page">
+        <img src="https://www.basketshop.ru/files/catalog/37078/184A5503.JPG">
+        <p>Brown Shoes</p>
+        <p>Price: 4000 RUB</p>
+    </div>
+</main>
+<footer>
+    <p>&copy; <span id="curYear"></span> All rights reserved.</p>
+    <script>
+        document.getElementById('curYear').textContent = new Date()
+            .getFullYear();
+    </script>
+</footer>
+</body>
+</html>

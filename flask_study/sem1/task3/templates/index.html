@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>task2</title>
+        <link rel="stylesheet" type="text/css"
+              href="{{ url_for('static', filename='css/style.css') }}" />
+    </head>
+    <body>
+        <h1 class="hello">Hello, World!</h1>
+            <div>
+              <button class="rng-color-button"
+                      onclick="changeColor()">Change my color</button>
+                <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+                <ul>
+                    <li>
+                        <a href=" {{ url_for('about') }}">About us</a>
+                        <a href=" {{ url_for('contact') }}">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        <h2 class="calc">Calculate</h2>
+            <input type="number" id="number1">
+            <input type="number" id="number2">
+            <select id="operation">
+                <option value="add">+</option>
+            </select>
+            <button class="calc_button" onclick="calculate()">Get result</button>
+            <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+            <input type="text" id="calc_result" readonly>
+    </body>
+</html>
