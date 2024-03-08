@@ -11,24 +11,33 @@
 </head>
 <body>
 <header>
+    {% block header %}
     <h1>Header</h1>
+    {% endblock %}
     <ul>
         <li>
             <a href="/">Home</a>
             <a href="about">About us</a>
             <a href="contact">Contact</a>
+            <a href="students">Students</a>
+            <a href="news">News</a>
+            <a href="products">Products</a>
         </li>
     </ul>
 </header>
 <main>
+    {% block main %}
     <a>Main content</a>
+    {% endblock %}
 </main>
 <footer>
+    {% block footer %}
     <p>&copy; <span id="curYear"></span> All rights reserved.</p>
     <script>
         document.getElementById('curYear').textContent = new Date()
             .getFullYear();
     </script>
+    {% endblock %}
 </footer>
 </body>
 </html>
