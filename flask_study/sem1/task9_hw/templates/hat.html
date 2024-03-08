@@ -6,9 +6,9 @@
 
 {% block main %}
 <a>Hat</a>
-    <div class="product-page">
-        <img src="https://mksfur.ru/wp-content/uploads/2018/04/Kaminsky_133.jpg" />
-        <p>Red Hat</p>
-        <p class="price">Price: 1000 RUB</p>
-    </div>
+<div class="product-page">
+    <img src="{{ url_for('static', filename='images/hat1.jpg') }}"/>
+    <p>Red Hat</p>
+    <p class="price">Price: 1000 RUB</p>
+</div>
 {% endblock %}
