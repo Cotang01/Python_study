@@ -104,11 +104,11 @@ if __name__ == '__main__':
         format='%(asctime)s %(levelname)s %(message)s'))
 
     parser = argparse.ArgumentParser(description='Command line args parser')
-    parser.add_argument('file_name', default='subjects.csv',
+    parser.add_argument('file_name', default='subjects.csv', nargs='?',
                         help="csv file name with student's subjects")
     line_args = parser.parse_args()
 
-    s = Student('Петров', line_args.file_name, logger)
+    s = Student('Петров Илья', line_args.file_name, logger)
     print(s)
 
 
