@@ -100,7 +100,6 @@ def calculate_post():
     num2 = int(request.form.get('num2'))
     oper = request.form.get('operations')
     result = 0
-    print(oper)
     match oper:
         case '+':
             result = num1 + num2
