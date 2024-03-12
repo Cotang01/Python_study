@@ -1,0 +1,13 @@
+{% extends "default.html" %}
+
+{% block title %}SysPass{% endblock %}
+
+{% block header %}Enter the system{% endblock %}
+
+{% block main %}
+<form method="post" enctype="multipart/form-data">
+    <input type="text" name="user-name" placeholder="Enter name...">
+    <input type="email" name="user-email" placeholder="Enter email...">
+    <input type="submit" value="Enter">
+</form>
+{% endblock %}

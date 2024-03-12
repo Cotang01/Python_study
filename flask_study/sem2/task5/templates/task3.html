@@ -1,0 +1,22 @@
+{% extends "default.html" %}
+
+{% block title %}Login form{% endblock %}
+
+{% block header %}Enter your login and password{% endblock %}
+
+{% block main %}
+<form method="post" enctype="multipart/form-data">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <input type="text" name="user-login" placeholder="Enter login...">
+    <input type="text" name="user-password" placeholder="Enter password...">
+    <input type="submit" value="Login">
+</form>
+{% endblock %}

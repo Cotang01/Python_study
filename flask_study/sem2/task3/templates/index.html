@@ -1,0 +1,14 @@
+{% extends "default.html" %}
+
+{% block title %}Home page{% endblock %}
+
+{% block header %}
+<h1>Home</h1>
+{% endblock %}
+
+{% block main %}
+<form action="/task1" method="post">
+    <input type="text" name="name" placeholder="Input your name...">
+    <input type="submit" value="Greet">
+</form>
+{% endblock %}

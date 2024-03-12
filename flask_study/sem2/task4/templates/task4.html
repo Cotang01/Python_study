@@ -1,0 +1,12 @@
+{% extends "default.html" %}
+
+{% block title %}Words counter{% endblock %}
+
+{% block header %}Enter your text{% endblock %}
+
+{% block main %}
+<form method="post" enctype="multipart/form-data">
+    <input type="text" name="user-text" placeholder="Enter text...">
+    <input type="submit" value="Count">
+</form>
+{% endblock %}

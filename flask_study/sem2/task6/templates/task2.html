@@ -1,0 +1,16 @@
+{% extends "default.html" %}
+
+{% block title %}Uploader{% endblock %}
+
+{% block header %}
+<p>Image uploading</p>
+{% endblock %}
+
+{% block main %}
+<h1>Choose file to load</h1>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit" value="Load">
+</form>
+<img src="{{ url_for('static', filename='images/hamster.jpg') }}">
+{% endblock %}

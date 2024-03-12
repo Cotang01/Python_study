@@ -1,0 +1,12 @@
+{% extends "default.html" %}
+
+{% block header %}
+<h1>Главная</h1>
+{% endblock %}
+
+{% block main %}
+<form action="/task1" method="post">
+    <input type="text" name="name" placeholder="Input your name...">
+    <input type="submit" value="Greet">
+</form>
+{% endblock %}

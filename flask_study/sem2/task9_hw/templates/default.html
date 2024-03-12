@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        {% block title %}
+        Title
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/style.css') }}"/>
+</head>
+<body>
+<header>
+    {% block header %}
+    <h1>Header</h1>
+    {% endblock %}
+    <ul>
+        <li>
+            <a href="/">Home</a>
+            <a href="/task2">Load images</a>
+            <a href="/task3">Login</a>
+            <a href="/task4">Count words</a>
+            <a href="/task5">Calculator</a>
+            <a href="/task6">Verification</a>
+            <a href="/task7">Get square</a>
+            <a href="/task8">Greet user</a>
+            <a href="/task9">Profile</a>
+        </li>
+    </ul>
+</header>
+<main>
+    {% block main %}
+    <a>Main content</a>
+    {% endblock %}
+</main>
+<footer>
+    {% block footer %}
+    <p>&copy; <span id="curYear"></span> All rights reserved.</p>
+    <script>
+        document.getElementById('curYear').textContent = new Date()
+            .getFullYear();
+    </script>
+    {% endblock %}
+</footer>
+</body>
+</html>

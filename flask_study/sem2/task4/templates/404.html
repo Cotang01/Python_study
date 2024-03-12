@@ -1,0 +1,9 @@
+{% extends "default.html" %}
+
+{% block title %}{{ context.title }}{% endblock %}
+
+{% block header %} Page Not Found {% endblock %}
+
+{% block main %}
+<p>There's nothing here, please check URL if its correct: {{ context.url }}</p>
+{% endblock %}

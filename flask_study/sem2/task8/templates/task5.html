@@ -1,0 +1,28 @@
+{% extends "default.html" %}
+
+{% block title %}Calculator{% endblock %}
+
+{% block header %}Calculator{% endblock %}
+
+{% block main %}
+<form method="post" enctype="multipart/form-data">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <input type="number" name="num1">
+    <select name="operations">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <input type="number" name="num2">
+    <input type="submit" value="Calculate">
+</form>
+{% endblock %}

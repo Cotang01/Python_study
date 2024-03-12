@@ -1,0 +1,12 @@
+{% extends "default.html" %}
+
+{% block title %}Square Number{% endblock %}
+
+{% block header %}Get number and it's square{% endblock %}
+
+{% block main %}
+<form method="post" enctype="multipart/form-data">
+    <input type="number" name="num1" placeholder="Enter number...">
+    <input type="submit" value="Get square">
+</form>
+{% endblock %}
