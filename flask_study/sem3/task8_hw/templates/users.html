@@ -1,0 +1,29 @@
+{% extends "default.html" %}
+{% block title %}
+Students
+{% endblock %}
+{% block header %}
+<h1>Students</h1>
+{% endblock %}
+{% block main %}
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>PassHash</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for u in users %}
+    <tr>
+        <td>{{ u.fname }}</td>
+        <td>{{ u.sname }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.password }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

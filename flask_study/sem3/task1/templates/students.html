@@ -1,0 +1,31 @@
+{% extends "default.html" %}
+{% block title %}
+Students
+{% endblock %}
+{% block header %}
+<h1>Students</h1>
+{% endblock %}
+{% block main %}
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Gender</th>
+        <th>Group</th>
+        <th>Faculty</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for s in students %}
+    <tr>
+        <td>{{ s.fname }}</td>
+        <td>{{ s.sname }}</td>
+        <td>{{ s.gender }}</td>
+        <td>{{ s.group }}</td>
+        <td>{{ s.faculty.name }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

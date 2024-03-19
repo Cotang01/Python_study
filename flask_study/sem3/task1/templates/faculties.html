@@ -1,0 +1,25 @@
+{% extends "default.html" %}
+{% block title %}
+Faculty
+{% endblock %}
+{% block header %}
+<h1>Faculties</h1>
+{% endblock %}
+{% block main %}
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for f in faculties %}
+    <tr>
+        <td>{{ f.id }}</td>
+        <td>{{ f.name }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
