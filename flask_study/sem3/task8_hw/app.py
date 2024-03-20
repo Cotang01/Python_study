@@ -45,7 +45,7 @@ def register():
                             email=form.email.data,
                             password=generate_password_hash(form.password.data)))
         db.session.commit()
-        redirect(url_for('login'))
+        return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
 
@@ -64,14 +64,17 @@ def login():
 
 @app.route('/profile/')
 def profile():
-    if 'logged_in' in session:
-        return render_template('profile.html', email=session['email'])
-    return redirect(url_for('login'))
+    try:
+        if session['logged_in']:
+            return render_template('profile.html', email=session['email'])
+    except KeyError:
+        flash('You are not logged in!', 'info')
+        return redirect(url_for('login'))
 
 
 @app.route('/logout')
 def logout():
-    session.pop('email', None)
+    session['logged_in'] = False
     return redirect(url_for('index'))
 
 
