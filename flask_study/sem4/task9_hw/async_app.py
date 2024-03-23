@@ -15,7 +15,7 @@ import asyncio
 import sys
 import time
 from typing import List
-import requests
+import aiohttp
 
 
 async def get_urls_from_txt(txt_path: str) -> List[str]:
@@ -23,30 +23,27 @@ async def get_urls_from_txt(txt_path: str) -> List[str]:
         return f.readlines()
 
 
-async def load_image(url: str) -> None:
-    try:
-        s = time.time()
-        image_name, ext = url.strip().split('/')[-1].split('.')
-        image_data = requests.get(url).content
-        with open(f'{image_name}.{ext}', 'wb') as f:
-            f.write(image_data)
-        print(f'Image {image_name}.{ext} has been loaded in '
-              f'{time.time() - s} s.')
-    except ValueError:
-        print(f'Could not get image from url: {url}')
+async def download(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            text = await response.content.read()
+            image_name, ext = url.strip().split('/')[-1].split('.')
+            with open(f'{image_name}.{ext}', "wb") as f:
+                f.write(bytes(text))
+            print(f"Downloaded {url} in {time.time() - start: .2f} s.")
 
 
 async def main():
-    try:
-        for link in await get_urls_from_txt(sys.argv[1]):
-            asyncio.create_task(load_image(link))
-    except FileNotFoundError as fnfe:
-        print(fnfe)
-    except IndexError:
-        print('Additional argument has not been provided')
+    tasks = []
+    for url in await get_urls_from_txt(sys.argv[1]):
+        task = asyncio.ensure_future(download(url))
+        tasks.append(task)
+    await asyncio.gather(*tasks)
 
+start = time.time()
 
 if __name__ == '__main__':
-    s = time.time()
-    asyncio.run(main())
-    print(f'Total time: {time.time() - s}')
+    start = time.time()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+    print(f'Total time: {time.time() - start}')

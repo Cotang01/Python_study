@@ -26,29 +26,25 @@ def get_urls_from_txt(txt_path: str) -> List[str]:
         print(fnfe)
 
 
-def load_image(url: str) -> None:
-    try:
-        s = time.time()
-        image_name, ext = url.strip().split('/')[-1].split('.')
-        image_data = requests.get(url).content
-        with open(f'{image_name}.{ext}', 'wb') as f:
-            f.write(image_data)
-        print(f'Image {image_name}.{ext} has been loaded in '
-              f'{time.time() - s} s.')
-    except ValueError:
-        print(f'Could not get image from url: {url}')
+def download(url):
+    s = time.time()
+    response = requests.get(url)
+    image_name, ext = url.strip().split('/')[-1].split('.')
+    with open(f'{image_name}.{ext}', "wb") as f:
+        f.write(bytes(response.content))
+    print(f"Downloaded {url} in {time.time() - s: .2f} s.")
 
 
 if __name__ == '__main__':
-    s = time.time()
+    start = time.time()
     processes = []
-    for link in get_urls_from_txt(sys.argv[1]):
-        process = multiprocessing.Process(target=load_image,
-                                          args=(link,))
+
+    for url in get_urls_from_txt(sys.argv[1]):
+        process = multiprocessing.Process(target=download, args=(url,))
         processes.append(process)
         process.start()
 
-    for t in processes:
-        t.join()
+    for p in processes:
+        p.join()
 
-    print(f'Total time: {time.time() - s}')
+    print(f'Total time: {time.time() - start}')
