@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Управление{% endblock %}
+
+{% block header %}Управление товарами{% endblock %}
+
+{% block main %}
+    <ul>
+        <li>
+            <a href="{% url 'show_products' %}">Показать все товары</a>
+            <br/>
+            <a href="{% url 'create_product' %}">Создать товар</a>
+            <br/>
+        </li>
+    </ul>
+{% endblock %}
