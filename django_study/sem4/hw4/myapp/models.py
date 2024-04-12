@@ -18,7 +18,7 @@ class Product(models.Model):
     price = models.FloatField(blank=False, null=False)
     quantity = models.PositiveIntegerField(blank=False, null=False)
     publish_date = models.DateField(auto_now=True)
-    image = models.ImageField(upload_to='images/',
+    image = models.ImageField(upload_to='',
                               default=f'image{randint(0, 1_000_000)}.png')
 
     def __str__(self):
